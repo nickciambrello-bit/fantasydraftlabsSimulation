@@ -1,0 +1,41 @@
+name: Data ingest
+
+on:
+  schedule:
+    - cron: "0 10 * * *"   # daily, after nflverse's overnight refresh
+  workflow_dispatch:
+    inputs:
+      command:
+        description: "nflverse, sleeper, or all"
+        default: "all"
+      seasons:
+        description: "Seasons to load, e.g. 2018-2026 (blank = current season)"
+        default: ""
+
+concurrency:
+  group: data-ingest
+  cancel-in-progress: false
+
+jobs:
+  ingest:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Ingest
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          COMMAND: ${{ inputs.command || 'all' }}
+          SEASONS: ${{ inputs.seasons }}
+        run: |
+          if [ -n "$SEASONS" ]; then
+            pnpm --filter @fantasy-labs/data ingest "$COMMAND" --seasons "$SEASONS"
+          else
+            pnpm --filter @fantasy-labs/data ingest "$COMMAND"
+          fi
