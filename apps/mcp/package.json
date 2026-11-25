@@ -1,0 +1,26 @@
+{
+  "name": "@fantasy-labs/mcp",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Fantasy Labs MCP server: live NFL data (odds, weather, ESPN, nflverse) plus a local Sleeper league history store.",
+  "bin": { "fantasy-labs-mcp": "dist/index.js" },
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "build": "esbuild src/index.ts --bundle --platform=node --target=node22 --format=esm --outfile=dist/index.js --packages=external",
+    "start": "node --disable-warning=ExperimentalWarning dist/index.js",
+    "smoke": "pnpm build && node --disable-warning=ExperimentalWarning scripts/smoke.mjs",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.32.2",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "^22.19.0",
+    "esbuild": "^0.25.12",
+    "typescript": "^5",
+    "vitest": "^2.1.9"
+  }
+}
