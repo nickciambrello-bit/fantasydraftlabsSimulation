@@ -9,10 +9,11 @@ other AI assistants), a web app, and a mobile app.
 |---|---|
 | `packages/engine` | Pure TypeScript simulation engine. Seeded RNG (`createRng`) so every sim is reproducible. Today: draft sims (mock, strategy, league, pick lab). |
 | `apps/web` | Next.js 14 + Supabase web app (the original Fantasy Draft Labs). |
+| `apps/mcp` | MCP server for Claude Desktop: odds, weather, ESPN injuries/news/depth charts, nflverse usage + Next Gen Stats, and a local SQLite store of your Sleeper league's full history. See [apps/mcp/README.md](apps/mcp/README.md). |
 | `supabase/legacy` | SQL schema files from the original app, in the order they were applied. |
 
-Coming next: `packages/data` (nflverse + Sleeper ingest), `apps/api` (REST + MCP
-server), `apps/mobile` (Expo).
+Coming next: `packages/data` (nflverse + Sleeper ingest), `apps/api` (REST),
+`apps/mobile` (Expo).
 
 ## Develop
 
